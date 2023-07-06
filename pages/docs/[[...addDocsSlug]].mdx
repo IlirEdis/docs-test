@@ -11,8 +11,6 @@ const res = await fetch(
 `https://glorious-snazzy-hot.strapiapp.com/api/doc-articles?populate[AdditionalDocs][populate]=*&filters[Slug][$eq][0]=${addDocsSlug[0]}&filters[AdditionalDocs][Slug][$eq][1]=${addDocsSlug[1]}&pagination[start]=0&pagination[limit]=50`
 );
 
-// `https://glorious-snazzy-hot.strapiapp.com/api/doc-articles?populate=*&filters[Slug][$eq][0]=${params.docsSlug[0]}&filters[Slug][$eq][1]=${params.docsSlug[1]}&pagination[start]=0&pagination[limit]=50`
-
 const doc = await res.json();
 
 console.log("DOC", doc);
@@ -36,15 +34,6 @@ const res = await fetch(
 
 const docs = await res.json();
 
-// console.log("DOCSSS", docs.data[0].attributes)
-
-// const paths = docs.data.map((path)=> (path.attributes.AdditionalDocs.length === 0 ?
-// ({params:{ docsSlug: `/docs/${path.attributes.Slug}`}}) : (path.attributes.AdditionalDocs.map((subPath)=> ({params:{docsSlug:`/docs/${path.attributes.Slug}/${subPath.Slug}`}})))
-// ))
-
-// const paths = docs.data.map((path) => ({
-// docsSlug:`/docs/${path.attributes.Slug}`
-// }))
 const paths = docs.data.map((path) => (
 path.attributes.AdditionalDocs.map((subPath)=>(
 `/docs/${path.attributes.Slug}/${subPath.Slug}`
@@ -54,18 +43,6 @@ path.attributes.AdditionalDocs.map((subPath)=>(
 
 const mergedPaths = paths.flat(1)
 
-// const paths = docs.data.map((path) =>
-// (path.attributes.AdditionalDocs === 0 ? `/docs/${path.attributes.Slug}` : path.attributes.AdditionalDocs.map((subPath)=> `/docs/${path.attributes.Slug}/${subPath.Slug}`) ))
-
-// console.log("PATHSSS", mergedPaths)
-
-// return {
-// paths: docs.data.map((doc) => ({
-// params: { docsSlug: doc.attributes.Slug },
-// })),
-// fallback: "blocking",
-// };
-// };
 return {
 paths: mergedPaths,
 fallback: false,
@@ -73,6 +50,3 @@ fallback: false,
 };
 
 <RemoteContent />
-
-{/* "https://glorious-snazzy-hot.strapiapp.com/api/docs?populate[MarkdownContent]?pagination[start]=0&pagination[limit]=50" */}
-{/* https://glorious-snazzy-hot.strapiapp.com/api/server-locations?populate[lookingGlassOptions][populate]=*&populate[dynamic][populate]=speedTest&sort[0]=Country&sort[1]=City?pagination[start]=0&pagination[limit]=50 */}
