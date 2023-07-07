@@ -2,6 +2,7 @@ import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
 import { useRouter } from "next/router";
 import { useConfig } from "nextra-theme-docs";
+import { OramaSearch } from "@orama/plugin-nextra";
 
 const config: DocsThemeConfig = {
   logo: "Logo",
@@ -44,6 +45,9 @@ const config: DocsThemeConfig = {
   docsRepositoryBase: "https://github.com/IlirEdis/docs",
   footer: {
     text: `${new Date().getFullYear()} © EDIS Global`,
+  },
+  search: {
+    component: OramaSearch,
   },
   // editLink: {
   //   component: undefined,

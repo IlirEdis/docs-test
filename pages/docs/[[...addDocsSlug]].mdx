@@ -5,19 +5,18 @@ export const getStaticProps = async ({ params }) => {
 
 const {addDocsSlug} = params;
 
-console.log("SLUGG", addDocsSlug);
-
 const res = await fetch(
-`https://glorious-snazzy-hot.strapiapp.com/api/doc-articles?populate[AdditionalDocs][populate]=*&filters[Slug][$eq][0]=${addDocsSlug[0]}&filters[AdditionalDocs][Slug][$eq][1]=${addDocsSlug[1]}&pagination[start]=0&pagination[limit]=50`
+`https://glorious-snazzy-hot.strapiapp.com/api/doc-articles?populate[AdditionalDocs][populate]=*&filters[Slug][$eq][0]=${addDocsSlug[0]}&filters[Slug][$eq][1]=${addDocsSlug[1]}&pagination[start]=0&pagination[limit]=50`
 );
 
 const doc = await res.json();
 
-console.log("DOC", doc);
+const theSubDoc = doc.data[0].attributes.AdditionalDocs.map((subDoc)=>(subDoc))
+const selectedDoc = theSubDoc.filter((filteredDoc)=>filteredDoc.Slug === addDocsSlug[1])
 
 return {
 props: {
-...(await buildDynamicMDX(doc.data[0].attributes.MarkdownContent, {
+...(await buildDynamicMDX(selectedDoc[0].MarkdownContent, {
 defaultShowCopyCode: true,
 })),
 ...(await buildDynamicMeta()),
